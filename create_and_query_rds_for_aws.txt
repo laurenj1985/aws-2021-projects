@@ -1,0 +1,33 @@
+#Wanted to try to combine some of my cloud skills with my sql experience. My database on my pc broke down. So I attempted to:
+-Launch an RDS MySQL instance.
+-Launch an Ubuntu EC2 instance.
+-Connect the Ubuntu instance via SSH.
+-Install MySQL client on the EC2 and connect it to the RDS.
+-Then I created a database, added a table, and inserted some records.
+
+Below you can see the CLI commands I used to do so.
+-----------------------------------------------
+
+ssh -i "DockerKeyPair.pem" ubuntu@ec2-3-234-239-40.compute-1.amazonaws.com
+sudo apt update
+sudo apt install mysql-server
+sudo mysql_secure_installation
+mysql -h database-2.cagm6u4srjax.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
+Create Database TestBooks;
+show databases;
+use TestBooks
+Create Table If Not Exists Media (
+    -> media_id INT Auto_Increment,
+    -> type Varchar (255) Not Null,
+    -> platform Varchar (255),
+    -> creator Varchar (255),
+    -> origin_date Date,
+    -> description Text,
+    -> Primary Key (media_id)
+    -> ) Engine=Innodb;
+show tables;
+Insert Into Media (type, platform, creator) VALUES ('social', 'facebook', 'zuckerburg');
+Insert Into Media (type, platform, creator) VALUES ('social', 'instagram', 'systrom');
+Insert Into Media (type, platform, creator) VALUES ('social', 'myspace', 'anderson');
+Select * From Media;
+Select platform From Media Where creator = 'zuckerburg';
